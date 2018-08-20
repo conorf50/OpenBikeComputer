@@ -7,12 +7,15 @@ Based on original code by Dave Darko: https://github.com/davedarko/OpenBikeCompu
 
 
 
-unsigned long wheel = 2240; 
+unsigned long wheelCircumference = 2240; 
 unsigned long constant;
 unsigned long time;
 unsigned long start;
 char output[11];
 int pushButton = 7;
+
+double currentSpeed = 0;
+
 boolean is_pushed, is_released;
 int is_pushed_old;
 
@@ -24,7 +27,6 @@ void setup(void) {
   is_released = LOW;
 }
 
-  double abc = 0;
 void loop() {
   
   
@@ -32,7 +34,6 @@ void loop() {
   int a_read = analogRead(pushButton);
   
   if (is_pushed_old != is_pushed) {
- //   Serial.println(a_read);
   }
   is_pushed_old = is_pushed;
   
@@ -44,13 +45,11 @@ void loop() {
       is_released = LOW;
 
       time = micros() - start;
-      abc = get_mps(time);
-//     String output_string;
-//      dtostrf(abc,1,1,output);
-//      output_string.toCharArray( output, 11);
+      currentSpeed = get_mps(time);
+
+
       start = micros();
-      Serial.println(abc);
-//      Keyboard.print(abc);
+      Serial.println(currentSpeed);
 
 ;
 
@@ -67,6 +66,6 @@ double get_mps (unsigned long mic_sec) {
 
 unsigned long get_constant () {
     
-  return wheel * 3600 ;
+  return wheelCircumference * 3600 ;
 }
 
